@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket;
+        jQuery(function ($) {
+            socket = io.connect('http://localhost:2000');
+
+            socket.on('joined', function (data) {
+                $("#chats").append("<p>" + data + "</p>");
+            });
+
+            socket.on('message', function (data) {
+                $("#chats").append("<p>" + data + "</p>");
+            })
+        });
+
+        function reconnect() {
+            socket.emit('reconnect', $("#userid").val());
+            // socket.emit('join', $("#userid").val());
+        }
+
+        function disconnect() {
+            socket.emit('disconnect', $("#userid").val());
+            // socket.emit('join', $("#userid").val());
+        }
+
+
+        function join() {
+            socket.emit('join', $("#userid").val());
+        }
+
+        function sendMessage() {
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:2000/api/data",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/x-www-form-urlencoded",
+                },
+                "data": {
+                    "userid": $("#toUserId").val(),
+                    "message": $("#text").val()
+                }
+            }
+
+            $.ajax(settings).done(function (response) {
+                $("#text").val('');
+                console.log(response);
+
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <br><br>
+    <input type="text" name="userid" id="userid">
+    <button type="submit" onclick="join()">Join</button>
+    <!-- <button type="submit" onclick="disconnect()">disconnect</button>
+    <button type="submit" onclick="reconnect()">reconnect</button> -->
+    <hr><br /><br />
+
+    <input type="text" name="text" placeholder="enter user here" id="toUserId">
+    <input type="text" name="text" placeholder="enter text here" id="text">
+    <button type="submit" onclick="sendMessage()">Send</button>
+    <br />
+    <div id="chats"></div>
+</body>
+
+</html>
