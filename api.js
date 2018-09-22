@@ -10,12 +10,12 @@ router.post("/data", function(req, res) {
     io.to(userList[req.body.userid]).emit("message", req.body.message);
     res.send({
       status: true,
-      message: "data sent successfully"
+      message: "Data sent successfully"
     });
   } else {
     res.send({
       status: true,
-      message: "user is not valid"
+      message: "User is not valid"
     });
   }
 });

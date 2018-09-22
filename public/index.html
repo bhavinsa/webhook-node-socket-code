@@ -66,14 +66,18 @@
 
 <body>
     <br><br>
-    <input type="text" name="userid" id="userid">
+    <input placeholder="Enter your id here" type="text" name="userid" id="userid">
     <button type="submit" onclick="join()">Join</button>
     <!-- <button type="submit" onclick="disconnect()">disconnect</button>
     <button type="submit" onclick="reconnect()">reconnect</button> -->
     <hr><br /><br />
 
-    <input type="text" name="text" placeholder="enter user here" id="toUserId">
-    <input type="text" name="text" placeholder="enter text here" id="text">
+    <span>Enter user id here to whom you want to send message.</span>
+    <br>
+    <input type="text" name="text" placeholder="Enter user id here" id="toUserId">
+    <br><br>
+    <input type="text" name="text" placeholder="Enter text here" id="text">
+
     <button type="submit" onclick="sendMessage()">Send</button>
     <br />
     <div id="chats"></div>
